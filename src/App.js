@@ -18,7 +18,7 @@ export default function App() {
       <p>
         <i>Where Comedy is Crafted and Laughter is Manufactured!</i>{" "}
       </p>
-      <JokeInput categoryList={categoryList} />
+      <JokeInput categoryList={categoryList} setjokeOutput={setjokeOutput} />
       <JokeOutput jokeOutput={jokeOutput} />
     </div>
   );

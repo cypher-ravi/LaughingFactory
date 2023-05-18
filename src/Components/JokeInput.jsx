@@ -1,25 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { getGPTResponse } from "../utils/getGPTResponse";
 
-export default function JokeInput({ categoryList }) {
-  const handleSubmit = () => {
+export default function JokeInput({ categoryList, setjokeOutput }) {
+  const [onChangeJokeInput, setOnChangeJokeInput] = useState("");
+
+  const handleChange = (e) => {
+    setOnChangeJokeInput(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     // API call -----> generate jokes
+    e.preventDefault();
+    let response = await getGPTResponse(onChangeJokeInput);
+    setjokeOutput(response);
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div class="input-group mb-3">
+      <div className="input-group mb-3">
         <button
-          class="btn btn-outline-secondary dropdown-toggle"
+          className="btn btn-outline-secondary dropdown-toggle"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           Category
         </button>
-        <ul class="dropdown-menu">
+        <ul className="dropdown-menu">
           {categoryList.map((category) => {
             return (
-              <li>
-                <a class="dropdown-item" href="/">
+              <li key={category}>
+                <a className="dropdown-item" href="/">
                   {category}
                 </a>
               </li>
@@ -28,11 +38,13 @@ export default function JokeInput({ categoryList }) {
         </ul>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
+          value={onChangeJokeInput}
+          onChange={handleChange}
           aria-label="Text input with dropdown button"
           placeholder="Funny joke about programming"
         />
-        <button type="button" class="btn btn-outline-success">
+        <button type="submit" className="btn btn-outline-success">
           Generate
         </button>
       </div>
